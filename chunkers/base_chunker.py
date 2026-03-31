@@ -1,4 +1,6 @@
-from typing import Dict, Any
+from typing import List, Dict, Any
+
+from llama_index.core import Document
 
 from base import IDocumentChunker
 
@@ -10,12 +12,9 @@ class BaseChunker(IDocumentChunker):
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
     
-    def _create_chunk(self, text: str, metadata: Dict[str, Any], index: int) -> Dict[str, Any]:
-        """Создает структуру чанка"""
-        return {
-            "text": text,
-            "metadata": {
-                **metadata,
-                "chunk_index": index
-            }
-        }
+    def chunk(self, document: Document) -> List[Dict[str, Any]]:
+
+        return [{
+            "text": None, 
+            "metadata": {}
+        }]      

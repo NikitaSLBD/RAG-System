@@ -22,11 +22,11 @@ class InternalPolicyChunker(BaseChunker):
         
         # Паттерны для структуры политики
         self.chapter_pattern = re.compile(
-            r'(##?\s*ГЛАВА\s+(\d+)[^\n]*\n)(.*?)(?=\n##?\s*ГЛАВА|\Z)',
+            r'(ГЛАВА\s+(\d+)[^\n]*\n)(.*?)(?=\nГЛАВА|\Z)',
             re.DOTALL | re.IGNORECASE
         )
         self.section_pattern = re.compile(
-            r'((?:\d+\.\d+|\d+\.)\s+[^\n]+\n)(.*?)(?=\n\d+\.\d+\s+|\n##?\s*ГЛАВА|\Z)',
+            r'((?:\d+\.\d+\.\d+\.|\d+\.\d+\.)\s+[^\n]+\n)(.*?)(?=\n\d+\.\d+\.\d+\.|\d+\.\d+\.\s+|\nГЛАВА|\Z)',
             re.DOTALL
         )
     
@@ -85,6 +85,7 @@ class InternalPolicyChunker(BaseChunker):
                     for sub_idx, sub_text in enumerate(sub_chunks):
                         metadata = {
                             **document.metadata,
+                            "chunk_type": "subchunk",
                             "chapter_number": chapter_num,
                             "chapter_title": chapter_header,
                             "chapter_index": idx,
@@ -97,6 +98,7 @@ class InternalPolicyChunker(BaseChunker):
                 else:
                     metadata = {
                         **document.metadata,
+                        "chunk_type": "chapter",
                         "chapter_number": chapter_num,
                         "chapter_title": chapter_header,
                         "chapter_index": idx,

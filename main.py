@@ -13,13 +13,11 @@ from infrastructure.config import settings
 
 if __name__ == "__main__":
     
+    print("ЗАПУСК ПАЙПЛАЙНА ОБРАБОТКИ ДОКУМЕНТОВ")
     print("=" * 60)
-    print("🚀 ЗАПУСК ПАЙПЛАЙНА ОБРАБОТКИ ДОКУМЕНТОВ")
-    print("=" * 60)
-    print(f"📁 Входная директория: {str(settings.DOCS_DIR)}")
-    print(f"💾 Директория хранения: {str(settings.PERSIST_DIR)}")
-    print(f"🤖 Модель эмбеддингов: {settings.EMBED_MODEL}")
-    print(f"⚙️ Устройство: {settings.DEVICE}")
+    print(f"Входная директория: {str(settings.DOCS_DIR)}")
+    print(f"Директория хранения: {str(settings.PERSIST_DIR)}")
+    print(f"Модель эмбеддингов: {settings.EMBED_MODEL}")
     print("=" * 60)
     
     # 1. Инициализация компонентов
@@ -32,6 +30,10 @@ if __name__ == "__main__":
         embed_batch_size=settings.EMBED_BATCH_SIZE,
         device=settings.DEVICE
     )
+
+    if settings.COLLECTION_NAME in vector_store.list_collections(): 
+        vector_store.delete_collection(settings.COLLECTION_NAME)
+
     
     # 2. Создание пайплайна
     pipeline = DocumentProcessingPipeline(
@@ -44,7 +46,7 @@ if __name__ == "__main__":
     )
     
     # 3. Обработка директории
-    print("\n📚 НАЧАЛО ОБРАБОТКИ ДОКУМЕНТОВ")
+    print("\nНАЧАЛО ОБРАБОТКИ ДОКУМЕНТОВ")
     print("-" * 60)
     
     result = pipeline.process_directory(
@@ -54,11 +56,11 @@ if __name__ == "__main__":
     )
     
     if not result["success"]:
-        print(f"\n❌ Ошибка: {result.get('error', 'Неизвестная ошибка')}")
+        print(f"\nОшибка: {result.get('error', 'Неизвестная ошибка')}")
     
     # 4. Вывод статистики
     print("\n" + "=" * 60)
-    print("📊 СТАТИСТИКА ОБРАБОТКИ")
+    print("СТАТИСТИКА ОБРАБОТКИ")
     print("=" * 60)
     stats = pipeline.get_stats()
     for key, value in stats.items():
@@ -67,7 +69,7 @@ if __name__ == "__main__":
     
     # 5. Тестовый поиск
     print("\n" + "=" * 60)
-    print("🔍 ТЕСТОВЫЙ ПОИСК")
+    print("ТЕСТОВЫЙ ПОИСК")
     print("=" * 60)
     
     test_queries = [
@@ -79,7 +81,7 @@ if __name__ == "__main__":
     ]
     
     for query in test_queries:
-        print(f"\n📝 Запрос: {query}")
+        print(f"\nЗапрос: {query}")
         print("-" * 40)
         
         results = pipeline.search(
@@ -100,7 +102,3 @@ if __name__ == "__main__":
                 print(f"      Текст: {r['text'][:200]}...")
         else:
             print("   Результатов не найдено")
-    
-    print("\n" + "=" * 60)
-    print("✅ ПАЙПЛАЙН УСПЕШНО ЗАВЕРШЕН")
-    print("=" * 60)

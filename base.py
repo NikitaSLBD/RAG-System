@@ -8,8 +8,8 @@ from llama_index.core import Document
     
 class DocumentType(Enum):
 
-    LEGAL_ACT = "Legal_act"
-    INTERNAL_POLICY = "Internal_policy"
+    LEGAL_ACT = "legal_act"
+    INTERNAL_POLICY = "internal_policy"
     
 class IDocumentLoader(ABC):
     """Интерфейс загрузчика документов"""

@@ -10,9 +10,6 @@ from llama_index.core import Document, SimpleDirectoryReader
 from infrastructure.config import settings
 from base import DocumentType, IDocumentLoader
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
 def detect_document_type(text: str, filename: str = "") -> str:
     """
     Определяет тип документа по содержанию и/или имени файла
@@ -107,6 +104,6 @@ class DocumentLoader(IDocumentLoader):
             )
             
             all_docs.append(combined_doc)
-        
+
         return all_docs
         

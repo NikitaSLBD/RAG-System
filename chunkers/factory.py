@@ -23,7 +23,8 @@ class ChunkerFactory:
         Returns:
             DocumentChunker: экземпляр чанкера
         """
-        chunker_class = cls._chunkers.get(doc_type, cls._chunkers["unknown"])
+        chunker_class = cls._chunkers.get(doc_type, )
+
         return chunker_class(**kwargs)
     
     @classmethod

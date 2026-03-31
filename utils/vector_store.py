@@ -40,7 +40,7 @@ class ChromaVectorStore(IVectorStore):
         # Инициализация HuggingFaceEmbedding
         try:
             from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-            print(f"🔄 Загрузка модели: {embedding_model_name}")
+            print(f"Загрузка модели: {embedding_model_name}")
             self.embedding_model = HuggingFaceEmbedding(
                 model_name=embedding_model_name,
                 embed_batch_size=embed_batch_size,
@@ -53,7 +53,7 @@ class ChromaVectorStore(IVectorStore):
             logger.info(f"Размерность эмбеддингов: {self.embedding_dim}")
 
         except Exception as e:
-            logger.error(f"⚠️ Ошибка загрузки модели: {e}")
+            logger.error(f"Ошибка загрузки модели: {e}")
             self.use_embeddings = False
             
         
@@ -126,7 +126,7 @@ class ChromaVectorStore(IVectorStore):
         
         # Генерация эмбеддингов
         if show_progress:
-            logger.info(f"🔄 Генерация эмбеддингов для {len(chunks)} чанков...")
+            logger.info(f"Генерация эмбеддингов для {len(chunks)} чанков...")
         
         embeddings = self._get_embeddings(texts_for_embeddings)
         
@@ -145,7 +145,7 @@ class ChromaVectorStore(IVectorStore):
                 metadatas=metadatas
             )
         
-        logger.info(f"✅ Добавлено {len(chunks)} чанков в коллекцию '{collection_name}'")
+        logger.info(f"Добавлено {len(chunks)} чанков в коллекцию '{collection_name}'")
     
     def search(
         self, 
@@ -265,9 +265,9 @@ class ChromaVectorStore(IVectorStore):
             del self._collections[collection_name]
         try:
             self.client.delete_collection(collection_name)
-            logger.info(f"🗑️ Коллекция '{collection_name}' удалена")
+            logger.info(f"Коллекция '{collection_name}' удалена")
         except Exception as e:
-            logger.error(f"⚠️ Ошибка удаления коллекции: {e}")
+            logger.error(f"Ошибка удаления коллекции: {e}")
     
     def list_collections(self) -> List[str]:
         """Возвращает список всех коллекций"""
@@ -299,4 +299,4 @@ class ChromaVectorStore(IVectorStore):
         for collection_name in self.list_collections():
             self.delete_collection(collection_name)
         self._collections = {}
-        logger.info("🔄 Хранилище полностью сброшено")
+        logger.info("Хранилище полностью сброшено")

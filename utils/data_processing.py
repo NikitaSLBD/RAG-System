@@ -63,7 +63,7 @@ class DocumentProcessingPipeline:
         collection_name = collection or self.default_collection
         
         if verbose:
-            logger.info(f"📄 Начало обработки: {file_path}")
+            logger.info(f"Начало обработки: {file_path}")
         
         # 1. Загрузка документа (используем DocumentLoader)
         try:
@@ -164,7 +164,7 @@ class DocumentProcessingPipeline:
             )
             
             if verbose:
-                logger.info(f"📁 Загружено {len(documents)} документов из {directory_path}")
+                logger.info(f"Загружено {len(documents)} документов из {directory_path}")
         except Exception as e:
             return {"success": False, "error": f"Ошибка загрузки документов: {e}"}
         
@@ -179,6 +179,7 @@ class DocumentProcessingPipeline:
                 # Получение типа документа из метаданных
                 doc_type = cleaned_doc.metadata.get('doc_type', 'unknown')
                 
+
                 # Получение чанкера через фабрику
                 chunker = ChunkerFactory.create_chunker(
                     doc_type=doc_type,
@@ -191,7 +192,7 @@ class DocumentProcessingPipeline:
                 all_chunks.extend(chunks)
                 
                 if verbose:
-                    logger.info(f"   📝 {doc.metadata.get('file_name')} ({doc_type}): {len(chunks)} чанков")
+                    logger.info(f"{doc.metadata.get('file_name')} ({doc_type}): {len(chunks)} чанков")
             except Exception as e:
                 error_msg = f"Ошибка обработки {doc.metadata.get('file_name', 'unknown')}: {e}"
                 logger.error(error_msg)
@@ -211,7 +212,7 @@ class DocumentProcessingPipeline:
                 return {"success": False, "error": error_msg}
         
         if verbose:
-            logger.info(f"🎉 Обработка завершена: {len(documents)} документов, {len(all_chunks)} чанков")
+            logger.info(f"Обработка завершена: {len(documents)} документов, {len(all_chunks)} чанков")
         
         return {
             "success": True,
